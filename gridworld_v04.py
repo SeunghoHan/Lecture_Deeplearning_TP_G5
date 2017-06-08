@@ -29,10 +29,10 @@ class gameEnv():
         self.object_count = 0
         self.partial = partial
         
-        self.repetitionCheck = 0
-        self.flag = 0
-        self.pre1 = [-1, -1]
-        self.pre2 = [-1, -1]
+        #self.repetitionCheck = 0
+        #self.flag = 0
+        #self.pre1 = [-1, -1]
+        #self.pre2 = [-1, -1]
         
         a = self.reset()
         #plt.imshow(a, interpolation = "nearest")
@@ -90,10 +90,10 @@ class gameEnv():
         state = self.mapEnv()
         self.state = state
         
-        self.repetitionCheck = 0
-        self.flag = 0
-        self.pre1 = [-1, -1]
-        self.pre2 = [-1, -1]
+        #self.repetitionCheck = 0
+        #self.flag = 0
+        #self.pre1 = [-1, -1]
+        #self.pre2 = [-1, -1]
         
         return state
     
@@ -152,12 +152,14 @@ class gameEnv():
         state = self.mapEnv()
         self.state = state
         
-        self.repetitionCheck = 0
-        self.pre1 = [(None, None)]
-        self.pre2 = [(None, None)]
+        #self.repetitionCheck = 0
+        #self.pre1 = [(None, None)]
+        #self.pre2 = [(None, None)]
         
         return state
 
+    # add the 'if objectA.name != "hero":' 
+    # To test when a hero is in a random position
     def newPosition(self):
         iterables = [range(self.sizeX), range(self.sizeY)]
         points = []
@@ -233,31 +235,7 @@ class gameEnv():
         plt.imshow(a, interpolation = "nearest")        
         
         return a
-    """
-    def step(self, action):
-        
-        penalty = self.moveChar(action)
-        isRepetation = self.checkRepetition()
-        
-        if isRepetation == False:
-            reward, done = self.checkGoal()
-            #state = self.renderEnv()
-            state = self.mapEnv()        
-        
-            if reward == None:
-                print(done)
-                print(reward)
-                print(penalty)
 
-                return state, (reward+penalty), done
-            else:
-                return state, (reward+penalty), done
-        else :
-            penalty = -1
-            reword = 0
-            done = False
-            return state, (reward+penalty), done
-     """
     def step(self, action):
         
         penalty = self.moveChar(action)
@@ -274,7 +252,7 @@ class gameEnv():
         else:
             return state, (reward+penalty), done
        
-        
+    # Call 'self.checkGoal_for_testing()' to testing
     def step_for_testing(self, action):
         
         penalty = self.moveChar(action)
@@ -313,7 +291,16 @@ class gameEnv():
         self.objects[0] = hero
         
         return penalize
+    """
+    A little modification 
+        > if other.name == 'fire':
+        >            self.objects[0] = gameOb((0,0),1,1,2,None,'hero')
     
+    To make training speed faster, if the hero falls into the hole, just continue
+    It refer to website 'http://computingkoreanlab.com/app/jAI/jQLearning/'
+    This is a Q-learning test using Q-table. Looking at the options, they use penalty 'go on'(another is game over)
+    I think that 'go on' option is faster more than 'game over'. So, I modified the code 
+    """
     def checkGoal(self):
         others = []
         
@@ -337,7 +324,11 @@ class gameEnv():
             
         if ended == False:
             return 0.0, False  
-        
+    """
+    This code is to testing 
+    So, If hero falls into the hole or reach the goal, game is over 
+    And heor's position changes per episode 
+    """
     def checkGoal_for_testing(self):
         others = []
         
@@ -358,7 +349,7 @@ class gameEnv():
             
         if ended == False:
             return 0.0, False  
-        
+    """    
     def checkRepetition(self):
         if self.pre1[0] == -1 and self.pre1[1] == -1:
             self.pre1[0] = self.objects[0].x
@@ -392,3 +383,4 @@ class gameEnv():
         
         if self.repetitionCheck >= 5:
             return True
+    """
