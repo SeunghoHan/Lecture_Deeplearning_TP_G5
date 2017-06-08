@@ -1,0 +1,12 @@
+Network Parameter
+	H1: 512
+	H2: 512
+	H3: 512
+
+Training Parameters
+	batch_size = 32
+	update_freq = 5 for total_step
+	anneling_steps = 50000
+	num_episodes = 50000
+	pre_train_steps = 50000
+	max_epLength = 100
