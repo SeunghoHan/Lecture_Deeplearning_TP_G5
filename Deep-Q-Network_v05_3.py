@@ -178,7 +178,7 @@ class DQN():
             # Weights of each layer
             self.W = {
                 'W1': self.init_weight("W1", [num_frames * action_size, hiddens[0]]),
-                'W2': self.init_weight("W2", [hiddens[0], hiddens[1]),
+                'W2': self.init_weight("W2", [hiddens[0], hiddens[1]]),
                 'W3': self.init_weight("W3", [hiddens[1], hiddens[2]]),
                 'AW': self.init_weight("AW", [hiddens[2]//2, hiddens[2]]),
                 'VM': self.init_weight("AW", [hiddens[2]//2, 1])
